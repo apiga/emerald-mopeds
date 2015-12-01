@@ -450,10 +450,30 @@ exports.addExpenseToTask = function (req, res) {
 
 exports.addEmployeeToTask = function (req, res) {
   var task_id = +req.params.id;
-  new Job_Task({
-    id: task_id
-  }).employees().attach({employee_id: req.body.newEmployee, time_spent: 0})
-  .then(function () {
+  var employee_id = req.body.newEmployee;
+  Job_Task.where({id: task_id}).fetch({withRelated: ['employees']})
+  .then(function(jobTask) {
+    var hasEmployee = [false, null];
+    jobTask.relations.employees.models.forEach(function(employee) {
+      if (employee.id - employee_id === 0) {
+        hasEmployee[0] = true;
+        hasEmployee[1] = employee.pivot.attributes.time_spent;
+
+      }
+    });
+    return hasEmployee;
+  })
+
+  .then(function (hasEmployee) {
+    if (!hasEmployee[0]) {
+      new Job_Task({
+        id: task_id
+      }).employees().attach({employee_id: employee_id, time_spent: 1});
+    } else {
+      new Job_Task({
+        id: task_id
+      }).employees().updatePivot({time_spent: 1 + hasEmployee[1]}, {query: {where: {employee_id: employee_id}}});
+    }
     res.send();
   });
 }
