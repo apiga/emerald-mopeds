@@ -14,8 +14,10 @@ Lancealot.TaskEmployeeView = Backbone.View.extend({
         + '<td>' + employee.get('first_name') + '</td>'
         + '<td>' + employee.get('last_name') + '</td>'
         + '<td>' + employee.get('hourly_billing_fee') + '</td>'
-        + '<td>' + employee.get('_pivot_time_spent') + '</td>'
+        + '<td contenteditable>' + employee.get('_pivot_time_spent') + '</td>'
         + '<td>' + employee.get('hourly_billing_fee') * employee.get('_pivot_time_spent') + '</td>'
+        + '<td><button>✓</button></td>'
+        + '<td><button>✓</button></td>'
         + '</tr>');
     })
     return this;
