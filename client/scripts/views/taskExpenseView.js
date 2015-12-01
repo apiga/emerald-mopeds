@@ -14,7 +14,7 @@ Lancealot.TaskExpenseView = Backbone.View.extend({
     this.collection.forEach(function (expense) {
       var expenseDisplay = new TaskListView({model: expense});
       thisView.append(expenseDisplay.el);
-    })
+    });
     return this;
   }
 });

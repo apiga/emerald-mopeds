@@ -60,6 +60,7 @@ Lancealot.TaskRowView = Backbone.View.extend({
     this.expenseView = new Lancealot.TaskExpenseView({collection: expenses});
 
     this.$el.html(this.template(modelData)).append([this.employeeView.el, this.expenseView.el]);
+    this.$el.append('<button class="addExpenseToTask">+</button>');
 
     //this adds all employees to the dropdown list
     var employeeSelect = this.$el.find('.employeeSelect');
